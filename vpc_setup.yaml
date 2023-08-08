@@ -1,0 +1,42 @@
+---
+- name: vpc setup vprofile
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Import variables from vpc_setup
+      include_vars: Variables/vpc_setup
+
+    - name: Creating vprofile VPC
+      ec2_vpc_net:
+        name: "{{vpc_name}}"
+        #The vpc_name variable is referenced using Jinja2 templating ({{ ... }}). This means that the actual n
+        #ame will be provided by the value of the vpc_name variable.
+
+        cider_block: "{{vpcCider}}"
+        region: "{{region}}"
+        dns_support: yes
+        dns_hostnames: yes
+        tenancy: default
+        state: "{{state}}"
+      register: vpc_out
+
+    - name: debug mode
+      debug:
+        var: vpc_out
+
+    ##creating subnets
+
+    - name: create public subnet-1 in zone-1
+      ec2_vpc_subnet:
+
+        vpc_id: "{{vpc_out.vpc.id}}" #id will be fetched from the json that is stored in vpc_out variable
+        cidr: "{{PubSub1Cider}}"
+        state: "{{state}}"
+        region: "{{region}}"
+        az: "{{zone1}}"
+        map_public: yes
+        resource_tags:
+          Name: vprofile-pubsub1
+
+      register: pubsub1_out
