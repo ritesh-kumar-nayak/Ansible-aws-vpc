@@ -13,7 +13,7 @@
         #The vpc_name variable is referenced using Jinja2 templating ({{ ... }}). This means that the actual n
         #ame will be provided by the value of the vpc_name variable.
 
-        cider_block: "{{vpcCider}}"
+        cidr_block: "{{vpcCidr}}"
         region: "{{region}}"
         dns_support: yes
         dns_hostnames: yes
