@@ -31,7 +31,7 @@
       ec2_vpc_subnet:
 
         vpc_id: "{{vpc_out.vpc.id}}" #id will be fetched from the json that is stored in vpc_out variable
-        cidr: "{{PubSub1Cider}}"
+        cidr: "{{PubSub1Cidr}}"
         state: "{{state}}"
         region: "{{region}}"
         az: "{{zone1}}"
