@@ -112,3 +112,15 @@
           Name: vprofile-privsub3
 
       register: privsub3_out
+
+  #Creating Internet Gateway for Public Subnets
+
+    - name: Create Internet Gateway
+      #this is the module name for Internet gateway
+      ec2_vpc_igw:
+        vpc_id: "{{vpc_out.vpc.id}}"
+        state: "{{state}}"
+        region: "{{region}}"
+        resource_tags:
+          Name: vprofile-IGW
+      register: igw_out
