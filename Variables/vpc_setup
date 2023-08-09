@@ -14,7 +14,7 @@ PrivSub1Cidr: 172.20.4.0/24
 PrivSub2Cidr: 172.20.5.0/24
 PrivSub3Cidr: 172.20.6.0/24
 
-#these zones will be created in 3 zones
+#these subnets will be created in 3 zones
 
 #region name
 

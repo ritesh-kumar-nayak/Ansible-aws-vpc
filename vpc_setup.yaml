@@ -40,3 +40,31 @@
           Name: vprofile-pubsub1
 
       register: pubsub1_out
+
+    - name: create public subnet-2 in zone-2
+      ec2_vpc_subnet:
+
+        vpc_id: "{{vpc_out.vpc.id}}" #id will be fetched from the json that is stored in vpc_out variable
+        cidr: "{{PubSub2Cidr}}"
+        state: "{{state}}"
+        region: "{{region}}"
+        az: "{{zone2}}"
+        map_public: yes
+        resource_tags:
+          Name: vprofile-pubsub2
+
+      register: pubsub2_out
+
+    - name: create public subnet-3 in zone-3
+      ec2_vpc_subnet:
+
+        vpc_id: "{{vpc_out.vpc.id}}" #id will be fetched from the json that is stored in vpc_out variable
+        cidr: "{{PubSub3Cidr}}"
+        state: "{{state}}"
+        region: "{{region}}"
+        az: "{{zone3}}"
+        map_public: yes
+        resource_tags:
+          Name: vprofile-pubsub3
+
+      register: pubsub3_out
