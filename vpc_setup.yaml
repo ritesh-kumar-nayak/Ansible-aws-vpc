@@ -124,3 +124,23 @@
         resource_tags:
           Name: vprofile-IGW
       register: igw_out
+
+  #Creating Route Table for Public Subnets that will route traffic to the above IGW
+
+    - name: Creating Route Table
+      ec2_vpc_route_table:
+        vpc_id: "{{vpc_out.vpc.id}}"
+        region: "{{region}}"
+        tags:
+          Name: VProfile-PubRT
+        # it takes all the subnets that will be attached to this route table as List
+        subnets:
+          - "{{pubsub1_out.subnet.id}}"
+          - "{{pubsub2_out.subnet.id}}"
+          - "{{pubsub3_out.subnet.id}}"
+
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{igw_out.gateway_id}}"
+
+      register: pub_RT_out
