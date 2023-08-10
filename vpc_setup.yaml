@@ -199,3 +199,23 @@
         - pub_RT_out.route_table.id
         - nat_out.nat_gateway_id
         - privRT_out.route_table.id
+
+    - name: set facts
+      set_fact:
+        vpcid: "{{vpc_out.vpc.id}}"
+        pubsub1id: "{{pubsub1_out.subnet.id}}"
+        pubsub2id: "{{pubsub2_out.subnet.id}}"
+        pubsub3id: "{{pubsub3_out.subnet.id}}"
+        privsub1id: "{{privsub1_out.subnet.id}}"
+        privsub2id: "{{privsub2_out.subnet.id}}"
+        privsub3id: "{{privsub3_out.subnet.id}}"
+        igwid: "{{igw_out.gateway_id}}"
+        pubRTid: "{{pub_RT_out.route_table.id}}"
+        natgwid: "{{nat_out.nat_gateway_id}}"
+        privRTid: "{{privRT_out.route_table.id}}"
+        cacheable: yes #This can improve the efficiency of playbook runs by reusing the cached results instead of re-executing tasks that have already been run with the same parameters.
+
+    - name: Copying variable to a file for further use
+      copy:
+        content: "vpcid: {{vpc_out.vpc.id}}\npubsub1id: {{pubsub1_out.subnet.id}}\npubsub2id: {{pubsub2_out.subnet.id}}\npubsub3id: {{pubsub3_out.subnet.id}}\nprivsub1id: {{privsub1_out.subnet.id}}\nprivsub2id: {{privsub2_out.subnet.id}}\nprivsub3id: {{privsub3_out.subnet.id}}\nigwid: {{igw_out.gateway_id}}\npubRTid: {{pub_RT_out.route_table.id}}\nnatgwid: {{nat_out.nat_gateway_id}}\nprivRTid: {{privRT_out.route_table.id}}\n"
+        dest: Variables/output_vars
