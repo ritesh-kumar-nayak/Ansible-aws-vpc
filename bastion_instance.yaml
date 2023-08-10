@@ -40,7 +40,7 @@
 
     - name: creating EC2 instance
       ec2:
-        key_name: vprokey_out
+        key_name: vpro_key
         region: "{{region}}"
         instance_type: t2.micro
         image: "{{bastion_ami}}"
