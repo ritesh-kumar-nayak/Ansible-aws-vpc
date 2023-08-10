@@ -1,0 +1,59 @@
+---
+- name: Bastion setup
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: bastion setup variables
+      include_vars: Variables/bastion_setup
+
+    - name: import vpc setup variable
+      include_vars: Variables/output_vars
+
+    - name: create vpro ec2 key pair
+      ec2_key:
+        name: vpro_key
+        region: "{{region}}"
+      register: vprokey_out
+
+    - name: save private key into file named bastion_key.pem
+      debug:
+        var: vprokey_out
+      copy:
+        content: "{{vprokey_out.key.private_key}}"
+        dest: "./bastion_key.pem"
+        mode: 0600
+      when: vprokey_out.changes
+
+    - name: Create Security group for bastion host
+      ec2_group:
+        name: bastion_host_SG
+        description: Alow port 22 from everywhere and all port within SG
+        region: "{{region}}"
+        vpc_id: "{{vpcid}}"
+        rules:
+          - porto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: "{{MYIP}}"
+      register: BastionSG_out
+
+    - name: creating EC2 instance
+      ec2:
+        key_name: vpro_key
+        region: "{{region}}"
+        instance_type: t2.micro
+        image: "{{bastion_ami}}"
+        wait: yes
+        wait_timeout: 300
+        instance_tags:
+          Name: "Bastion Host"
+          Project: Vpro-WebApp
+          Owner: Ritesh
+        exact_count: 1     # this determine the number of EC2 instance we want with the given configuration
+        count_tag:
+          Name: "Bastion Host"
+          Project: Vpro-WebApp
+          Owner: Ritesh
+        group_id: {{BastionSG_out.group_id}}
+        vpc_subnet_id: "{{pubsub1id}}"
