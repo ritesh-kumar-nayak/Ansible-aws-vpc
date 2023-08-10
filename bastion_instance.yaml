@@ -55,5 +55,5 @@
           Name: "Bastion Host"
           Project: Vpro-WebApp
           Owner: Ritesh
-        group_id: {{BastionSG_out.group_id}}
+        group_id: "{{BastionSG_out.group_id}}"
         vpc_subnet_id: "{{pubsub1id}}"
