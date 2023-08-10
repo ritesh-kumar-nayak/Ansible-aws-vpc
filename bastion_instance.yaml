@@ -15,7 +15,7 @@
         name: vpro_key
         region: "{{region}}"
       register: vprokey_out
-      debug:
+    - debug:
         var: vprokey_out
 
     - name: save private key into file named bastion_key.pem
