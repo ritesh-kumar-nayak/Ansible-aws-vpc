@@ -37,7 +37,7 @@
       register: BastionSG_out
 
     - name: creating EC2 instance
-      ec2:
+      ec2_instance:
         key_name: vpro_key
         region: "{{region}}"
         instance_type: t2.micro
