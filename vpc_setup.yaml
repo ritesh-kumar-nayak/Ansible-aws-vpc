@@ -146,7 +146,7 @@
       register: pub_RT_out
 
   #Creating NAT Gateway
-    - name: Creating NAT Gateway and allocate elastic IP if a nat gateway doesnt yet exist in the
+    - name: Creating NAT Gateway and allocate elastic IP if a nat gateway doesnt yet exist in the subnet
       ec2_vpc_nat_gateway:
         state: "{{state}}"
         subnet_id: "{{pubsub1_out.subnet.id}}"
@@ -181,3 +181,21 @@
     - name: Debug RoutTable output
       debug:
         var: privRT_out
+
+  ## Storing all the IDs of VPCs, Route Tables,   Internet Gateway and NAT Gateway for further use in projects
+
+    - name: Print all the IDs
+      debug:
+        var: "{{item}}"
+      loop:
+        - vpc_out.vpc.id
+        - pubsub1_out.subnet.id
+        - pubsub2_out.subnet.id
+        - pubsub3_out.subnet.id
+        - privsub1_out.subnet.id
+        - privsub2_out.subnet.id
+        - privsub3_out.subnet.id
+        - igw_out.gateway_id
+        - pub_RT_out.route_table.id
+        - nat_out.nat_gateway_id
+        - privRT_out.route_table.id
