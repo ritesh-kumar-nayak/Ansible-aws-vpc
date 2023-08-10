@@ -17,8 +17,6 @@
       register: vprokey_out
 
     - name: save private key into file named bastion_key.pem
-      debug:
-        var: vprokey_out
       copy:
         content: "{{vprokey_out.key.private_key}}"
         dest: "./bastion_key.pem"
