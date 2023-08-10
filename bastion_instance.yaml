@@ -39,7 +39,7 @@
       register: BastionSG_out
 
     - name: creating EC2 instance
-      ec2_instance:
+      ec2:
         key_name: vprokey_out
         region: "{{region}}"
         instance_type: t2.micro
@@ -57,3 +57,4 @@
           Owner: Ritesh
         group_id: "{{BastionSG_out.group_id}}"
         vpc_subnet_id: "{{pubsub1id}}"
+      register: bastionhost_out
