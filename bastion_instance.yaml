@@ -21,7 +21,7 @@
         content: "{{vprokey_out.key.private_key}}"
         dest: "./bastion_key.pem"
         mode: 0600
-      when: vprokey_out.changes
+      when: vprokey_out.changed
 
     - name: Create Security group for bastion host
       ec2_group:
