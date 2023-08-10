@@ -144,3 +144,40 @@
             gateway_id: "{{igw_out.gateway_id}}"
 
       register: pub_RT_out
+
+  #Creating NAT Gateway
+    - name: Creating NAT Gateway and allocate elastic IP if a nat gateway doesnt yet exist in the
+      ec2_vpc_nat_gateway:
+        state: "{{state}}"
+        subnet_id: "{{pubsub1_out.subnet.id}}"
+        wait: yes
+        region: "{{region}}"
+        if_exist_do_not_create: true # this is very important. It won't allwo to create multiple NAT GW if one is already created
+
+      register: nat_out
+    - name: Printing NAT Gateway Details
+      debug:
+        var: nat_out
+
+  #Creating Route Table for private subnet which will route the traffic to NAT GW
+
+    - name: Set up route table for private subnets
+      ec2_vpc_route_table:
+        vpc_id: "{{vpc_out.vpc.id}}"
+        region: "{{region}}"
+        tags:
+          Name: VProfile-PrivRT
+        # it takes all the private subnets that will be attached to this route table as List
+        subnets:
+          - "{{privsub1_out.subnet.id}}"
+          - "{{privsub2_out.subnet.id}}"
+          - "{{privsub3_out.subnet.id}}"
+
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{nat_out.nat_gateway_id}}"
+      register: privRT_out
+
+    - name: Debug RoutTable output
+      debug:
+        var: privRT_out
