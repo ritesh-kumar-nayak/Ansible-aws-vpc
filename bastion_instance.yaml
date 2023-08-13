@@ -21,7 +21,7 @@
     - name: save private key into file named bastion_key.pem
       copy:
         content: "{{vprokey_out.key.private_key}}"
-        dest: "./bastion_key.pem"
+        dest: "./bastionhost_key.pem"
         mode: 0600
       when: vprokey_out.changed
 
