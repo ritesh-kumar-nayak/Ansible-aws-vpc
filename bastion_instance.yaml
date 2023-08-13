@@ -14,16 +14,18 @@
       ec2_key:
         name: vpro_key
         region: "{{region}}"
-      register: vprokey_out
-    - debug:
-        var: vprokey_out
+      register: bastionkey_out
+
+    - name:  Opening the bastionkey_out output in debug mode
+      debug:
+        var: bastionkey_out
 
     - name: save private key into file named bastion_key.pem
       copy:
-        content: "{{vprokey_out.key.private_key}}"
+        content: "{{bastionkey_out.key.private_key}}"
         dest: "./bastionhost_key.pem"
         mode: 0600
-      when: vprokey_out.changed
+      when: bastionkey_out.changed
 
     - name: Create Security group for bastion host
       ec2_group:
