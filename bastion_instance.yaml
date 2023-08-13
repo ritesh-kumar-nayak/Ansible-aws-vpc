@@ -12,7 +12,7 @@
 
     - name: create vpro ec2 key pair
       ec2_key:
-        name: vpro_key
+        name: bastion_key
         region: "{{region}}"
       register: bastionkey_out
 
