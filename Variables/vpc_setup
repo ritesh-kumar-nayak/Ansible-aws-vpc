@@ -27,3 +27,9 @@ zone2: us-east-1b
 zone3: us-east-1c
 
 state: present
+
+# adding bastion variable in VPC setup to keep these in one file
+
+
+bastion_ami: ami-09538990a0c4fe9be
+MYIP: 117.99.44.80/32
