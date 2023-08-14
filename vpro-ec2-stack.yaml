@@ -21,7 +21,7 @@
 
     - name: save private key into file into loginkey_vprostack.pem
       copy:
-        content: {{vrprostack_key_out.key.private_key}}
+        content: "{{vrprostack_key_out.key.private_key}}"
         dest: ./loginkey_vprostack.pem
         mode: 0600
       when: vrprostack_key_out.changed
