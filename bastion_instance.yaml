@@ -8,7 +8,7 @@
       include_vars: Variables/vpc_setup
 
     - name: import vpc setup variable
-      include_vars: Variables/output_vars
+      include_vars: Variables/vpc_output_vars
 
     - name: create vpro ec2 key pair
       ec2_key:

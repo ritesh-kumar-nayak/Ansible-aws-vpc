@@ -1,0 +1,27 @@
+---
+- name: setup vprofile application stack
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: including variable files
+      include_vars: Variables/vpc_setup
+
+    - name: inclucing ami ids for Vpro-tack instances
+      include_vars: Variables/vpro-stack-setup
+
+    - name: Including vpc output variables containing subnet, IG and NWG details
+      include_vars: vpc_output_vars
+
+    - name: create vprofilestack ec2 key-pair
+      ec2_key:
+        name: vprostack_key
+        region: "{{region}}"
+      register: vrprostack_key_out
+
+    - name: save private key into file into loginkey_vprostack.pem
+      copy:
+        content: {{vrprostack_key_out.key.private_key}}
+        dest: ./loginkey_vprostack.pem
+        mode: 0600
+      when: vrprostack_key_out.changed
