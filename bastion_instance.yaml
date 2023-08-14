@@ -60,3 +60,11 @@
         group_id: "{{BastionSG_out.group_id}}"
         vpc_subnet_id: "{{pubsub1id}}"
       register: bastionhost_out
+
+
+    - name: insert/update bastion security group id "BastionSGid" in Variables/vpc_output_vars
+      blockinfile:    #The blockinfile module in Ansible is used to insert or update a block of text in a file. This module is helpful when you want to add or modify a specific section of a configuration file without altering the entire file. It's commonly used for managing configuration files on remote systems.
+        path: Variables/vpc_output_vars
+        backup: yes
+        block: |
+          BastionSGid: {{BastionSG_out.group_id}}

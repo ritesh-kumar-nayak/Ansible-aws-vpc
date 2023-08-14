@@ -4,6 +4,7 @@
   connection: local
   gather_facts: no
   tasks:
+    #importing required variable file that will be used in this playbook.
     - name: including variable files
       include_vars: Variables/vpc_setup
 
@@ -13,15 +14,62 @@
     - name: Including vpc output variables containing subnet, IG and NWG details
       include_vars: Variables/vpc_output_vars
 
-    - name: create vprofilestack ec2 key-pair
+    - name: create vprofilestack ec2 key-pair #creating key pair for instances
       ec2_key:
         name: vprostack_key
         region: "{{region}}"
       register: vrprostack_key_out
 
-    - name: save private key into file into loginkey_vprostack.pem
+    - name: save private key into file into loginkey_vprostack.pem #saving the keypair in a file for further use
       copy:
         content: "{{vrprostack_key_out.key.private_key}}"
         dest: ./loginkey_vprostack.pem
         mode: 0600
       when: vrprostack_key_out.changed
+
+    # Creating Security group for LoadBalancer of VPro app Stack
+    - name: Create security group for Load Balancer
+      ec2_group:
+        name: vpro_ELB_SG
+        description: Allow port 88 from everywhere and all port within SG
+        region: "{{region}}"
+        vpc_id: "{{vpcid}}"
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+      register: vpro_ELBSG_out
+
+    # Creating Security group for EC2 instances of VPro app stack
+    - name: Create Secrurity group for EC2 instances of VproStack
+      ec2_group:
+        name: vpro_EC2_SG
+        description: Allow port 88 from everywhere and all port within SG
+        region: "{{region}}"
+        vpc_id: "{{vpcid}}"
+        purge_rules: no #this no flag will not allow ansible to re-create or override SG if there is no changes to the rule
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            group_id: "{{vpro_ELBSG_out.group_id}}"
+
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            group_id: {{BastionSGid}}
+
+      register: vpro_EC2SG_out
+
+    #Update Security Group with it's own SG Id to enable all the services interact with each other
+    - name: Update Security Group with it's own SG Id
+      ec2_group:
+        name: vpro_EC2_SG
+        description: Allow port 88 from everywhere and all port within SG
+        region: "{{region}}"
+        vpc_id: "{{vpcid}}"
+        purge_rules: no #this no flag will not allow ansible to re-create or override SG if there is no changes to the rule
+        rules:
+          - proto: all
+            group_id: "{{vpro_EC2SG_out.group_id}}"
