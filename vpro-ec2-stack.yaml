@@ -192,3 +192,87 @@
 
     - debug:
         var: db01_out
+
+    # Creating Elastic Load Balancer(ELB)
+
+    - local_action:
+        module: ec2_elb_lb
+        name: "vpro-ELB"
+        region: "{{region}}"
+        state: present
+        instance_ids:
+          - "{{web01_out.tagged_instances[0].id}}"    #Defining the instances that will be attached to this Load Balancer. here Nginx server
+        purge_instance_ids: true
+        security_group_ids: "{{vpro_ELBSG_out.group_id}}"
+        subnets:
+          - "{{pubsub1id}}"
+          - "{{pubsub2id}}"
+          - "{{pubsub3id}}"
+        listeners:
+          - protocol: http # we can give http, https, ssl, tcp
+            load_balancer_port: 80
+            instance_port: 80
+
+    # Storing private IPs of Instances in a file and creating Inventory file out of it
+
+    - name: Insert/Update private IPs and name in file provision-stack/group_vars/host_IPs
+      blockinfile:
+        path: provision-stack/group_vars/host_IPs
+        block: |
+          web01_ip: {{web01_out.tagged_instances[0].private_ip}}
+          app01_ip: {{app01_out.tagged_instances[0].private_ip}}
+          rmq01_ip: {{rmq01_out.tagged_instances[0].private_ip}}
+          mc01_ip: {{mc01_out.tagged_instances[0].private_ip}}
+          db01_ip: {{db01_out.tagged_instances[0].private_ip}}
+
+    # Copying the security key pem file to provision-stack directory
+    # In provision-stack directory all the playbooks for services like Nginx, MySQL, RabbitMQ etc will be written
+
+    - name: Copy login key to provision-stack directory
+      copy:
+        src: loginkey_vprostack.pem
+        dest: provision-stack/loginkey_vprostack.pem
+        mode: '0400'
+
+    # Creating Dynamic-Inventory files with the IPs
+
+    - name: Insert/Update Inventory file provision-stack/inventory-vpro
+      blockinfile:
+        path: provision-stack/inventory-vpro
+        block: |
+          web01 ansible_host = {{web01_out.tagged_instances[0].private_ip}}
+          app01 ansible_host = {{app01_out.tagged_instances[0].private_ip}}
+          rmq01 ansible_host = {{rmq01_out.tagged_instances[0].private_ip}}
+          mc01 ansible_host = {{mc01_out.tagged_instances[0].private_ip}}
+          db01 ansible_host = {{db01_out.tagged_instances[0].private_ip}}
+          cntl ansible_host = 172.31.17.80 ansible_connection=local
+        
+        
+          [webserver_group]
+          web01
+        
+          [appserver_group]
+          app01
+        
+          [rmqserver_group]
+          rmq01
+        
+          [mcserver_group]
+          mc01
+        
+          [dbserver_group]
+          db01
+          
+          [control_machine]
+          cntl
+          
+          [stack_inst:children]
+          webserver_group
+          appserver_group
+          rmqserver_group
+          mcserver_group
+          dbserver_group
+          
+          [stack_inst:vars]
+          ansible_user: ubuntu
+          ansible_ssh_private_key_file=loginkey_vprostack.pem
