@@ -73,3 +73,122 @@
         rules:
           - proto: all
             group_id: "{{vpro_EC2SG_out.group_id}}"
+
+
+
+    #Creating EC2 instances for services like Nginx, RabbitMQ, Nencached, MySQL
+    - name: Creating Nginx Web01
+      ec2:
+        key_name: vprostack_key
+        region: "{{region}}"
+        instance_type: t2.micro
+        image: "{{nginx_ami}}"
+        wait: yes
+        wait_timeout: 300
+        instance_tags:
+          Name: "web01"
+          Project: Vpro
+          Owner: Ritesh
+        exact_count: 1      #it will not lunch the instance again and again
+        count_tag:
+          name: "web01"
+          Project: Vpro
+          Owner: Ritesh
+        group_id: "{{vpro_EC2SG_out.group_id}}"
+        vpc_subnet_id: "{{privsub1id}}"             #placing the instance in a private subnet
+      register: web01_out
+
+  # Creating EC2 instance for Tomcat
+
+    - name: Creating Tomcat App01
+      ec2:
+        key_name: vprostack_key
+        region: "{{region}}"
+        instance_type: t2.micro
+        image: "{{tomcat_ami}}"
+        wait: yes
+        wait_timeout: 300
+        instance_tags:
+          Name: "app01"
+          Project: Vpro
+          Owner: Ritesh
+        exact_count: 1      #it will not lunch the instance again and again
+        count_tag:
+          name: "app01"
+          Project: Vpro
+          Owner: Ritesh
+        group_id: "{{vpro_EC2SG_out.group_id}}"
+        vpc_subnet_id: "{{privsub1id}}"
+      register: app01_out
+
+    # Creating EC2 instance for Memcached Service
+
+    - name: Creating Memcached MC01
+      ec2:
+        key_name: vprostack_key
+        region: "{{region}}"
+        instance_type: t2.micro
+        image: "{{memcache_ami}}"
+        wait: yes
+        wait_timeout: 300
+        instance_tags:
+          Name: "mc01"
+          Project: Vpro
+          Owner: Ritesh
+        exact_count: 1      #it will not lunch the instance again and again
+        count_tag:
+          name: "mc01"
+          Project: Vpro
+          Owner: Ritesh
+        group_id: "{{vpro_EC2SG_out.group_id}}"
+        vpc_subnet_id: "{{privsub1id}}"
+      register: mc01_out
+
+  #Creating EC2 instance for RabbitMQ
+
+    - name: Creating RabbitMQ RMQ01
+      ec2:
+        key_name: vprostack_key
+        region: "{{region}}"
+        instance_type: t2.micro
+        image: "{{rabbitMQ_ami}}"
+        wait: yes
+        wait_timeout: 300
+        instance_tags:
+          Name: "rmq01"
+          Project: Vpro
+          Owner: Ritesh
+        exact_count: 1      #it will not lunch the instance again and again
+        count_tag:
+          name: "rmq01"
+          Project: Vpro
+          Owner: Ritesh
+        group_id: "{{vpro_EC2SG_out.group_id}}"
+        vpc_subnet_id: "{{privsub1id}}"
+      register: rmq01_out
+
+    #Creating Instance for MySQL Database
+
+    - name: Creating MySQL DB01
+      ec2:
+        key_name: vprostack_key
+        region: "{{region}}"
+        instance_type: t2.micro
+        image: "{{mysql_ami}}"
+        wait: yes
+        wait_timeout: 300
+        instance_tags:
+          Name: "db01"
+          Project: Vpro
+          Owner: Ritesh
+        exact_count: 1      #it will not lunch the instance again and again
+        count_tag:
+          name: "db01"
+          Project: Vpro
+          Owner: Ritesh
+        group_id: "{{vpro_EC2SG_out.group_id}}"
+        vpc_subnet_id: "{{privsub1id}}"
+      register: db01_out
+
+    - debug:
+        var: db01_out
