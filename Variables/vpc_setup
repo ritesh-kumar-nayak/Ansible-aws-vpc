@@ -32,4 +32,4 @@ state: present
 
 
 bastion_ami: ami-09538990a0c4fe9be
-MYIP: 117.97.215.70/32
+MYIP: 117.97.212.246/32
