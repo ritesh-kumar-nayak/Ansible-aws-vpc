@@ -16,7 +16,7 @@
 
     - name: create vprofilestack ec2 key-pair #creating key pair for instances
       ec2_key:
-        name: vprostack_key
+        name: vpro_key
         region: "{{region}}"
       register: vrprostack_key_out
     - debug:
@@ -90,7 +90,7 @@
     #Creating EC2 instances for services like Nginx, RabbitMQ, Nencached, MySQL
     - name: Creating Nginx Web01
       ec2:
-        key_name: vprostack_key
+        key_name: vpro_key
         region: "{{region}}"
         instance_type: t2.micro
         image: "{{nginx_ami}}"
@@ -113,7 +113,7 @@
 
     - name: Creating Tomcat App01
       ec2:
-        key_name: vprostack_key
+        key_name: vpro_key
         region: "{{region}}"
         instance_type: t2.micro
         image: "{{tomcat_ami}}"
@@ -136,7 +136,7 @@
 
     - name: Creating Memcached MC01
       ec2:
-        key_name: vprostack_key
+        key_name: vpro_key
         region: "{{region}}"
         instance_type: t2.micro
         image: "{{memcache_ami}}"
@@ -159,7 +159,7 @@
 
     - name: Creating RabbitMQ RMQ01
       ec2:
-        key_name: vprostack_key
+        key_name: vpro_key
         region: "{{region}}"
         instance_type: t2.micro
         image: "{{rabbitMQ_ami}}"
@@ -182,7 +182,7 @@
 
     - name: Creating MySQL DB01
       ec2:
-        key_name: vprostack_key
+        key_name: vpro_key
         region: "{{region}}"
         instance_type: t2.micro
         image: "{{mysql_ami}}"
