@@ -27,7 +27,7 @@
         content: "{{vrprostack_key_out.key.private_key}}"
         dest: ./vprostack.pem
         mode: 0600
-     # when: vrprostack_key_out.changed
+      when: vrprostack_key_out.changed
 
     # Copying the security key pem file to provision-stack directory
     # In provision-stack directory all the playbooks for services like Nginx, MySQL, RabbitMQ etc will be written
