@@ -37,7 +37,7 @@
           - proto: tcp
             from_port: 22
             to_port: 22
-            cidr_ip: "{{MYIP}}"
+            cidr_ip: "{{MYIP}}"  #my IP keeps changing everytime a new sessions starts. So make sure you change the MYIP variable in variable file
       register: BastionSG_out
 
     - name: creating EC2 instance
