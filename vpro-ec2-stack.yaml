@@ -19,6 +19,8 @@
         name: vprostack_key
         region: "{{region}}"
       register: vrprostack_key_out
+    - debug:
+        var: vrprostack_key_out
 
     - name: save private key into file into loginkey_vprostack.pem #saving the keypair in a file for further use
       copy:
