@@ -1,0 +1,38 @@
+# BEGIN ANSIBLE MANAGED BLOCK
+web01 ansible_host = 172.20.4.35
+app01 ansible_host = 172.20.4.188
+rmq01 ansible_host = 172.20.4.59
+mc01 ansible_host = 172.20.4.232
+db01 ansible_host = 172.20.4.90
+cntl ansible_host = 172.31.17.80 ansible_connection=local
+
+
+[webserver_group]
+web01
+
+[appserver_group]
+app01
+
+[rmqserver_group]
+rmq01
+
+[mcserver_group]
+mc01
+
+[dbserver_group]
+db01
+
+[control_machine]
+cntl
+
+[stack_inst:children]
+webserver_group
+appserver_group
+rmqserver_group
+mcserver_group
+dbserver_group
+
+[stack_inst:vars]
+ansible_user: ubuntu
+ansible_ssh_private_key_file=loginkey_vprostack.pem
+# END ANSIBLE MANAGED BLOCK
