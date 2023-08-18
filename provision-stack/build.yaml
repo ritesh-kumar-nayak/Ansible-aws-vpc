@@ -1,0 +1,42 @@
+- name: Generate artifact, copy artifacts and SQL file to files directory
+  hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+    - name: Install Jdk, maven and git in controller machine
+      apt:
+        name: "{{item}}"    #it will pick the name from the below loop and install one by one
+        state: present
+        update_cache: yes
+      loop:
+        - git
+        - openjdk-8-jdk
+        - maven
+
+  # Cloning project to local machine
+    - name: Clone application Source code from repository
+      git:
+        repo: 'https://github.com/devopshydclub/vprofile-project.git'
+        dest: ./Vprofile-repo
+        version: vp-rem
+      register: git_status
+
+# Installing Maven build tool and building the artifact
+    - name: mvn install command to build artifact
+      command: 'mvn install'                          # command module is used to run single commands
+      args:
+        chdir: Vprofile-repo
+      when: git_status.changed
+      register: mvn_info
+
+    - name: Copy artifacts to files directory
+      copy:
+        src: "{{item}}"
+        dest: files/ROOT.war
+      with_fileglob: Vprofile-repo/target/*.war       # with_fileglob loop allows you to iterate over files in a directory that match a specified glob pattern and perform tasks on those files.
+
+
+    - name: Copy SQL file to files directory
+      copy:
+        src: Vprofile-repo/src/main/resources/db_backup.sql
+        dest: files/db_backup.sql
