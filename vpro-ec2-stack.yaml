@@ -18,16 +18,16 @@
       ec2_key:
         name: vpro_key
         region: "{{region}}"
-      register: vrprostack_key_out
+      register: vrprostackkey_out
     - debug:
-        var: vrprostack_key_out
+        var: vrprostackkey_out
 
     - name: save private key into file into vprostack.pem #saving the keypair in a file for further use
       copy:
-        content: "{{vrprostack_key_out.key.private_key}}"
+        content: "{{vrprostackkey_out.key.private_key}}"
         dest: ./vprostack.pem
         mode: 0600
-      when: vrprostack_key_out.changed
+      when: vrprostackkey_out.changed
 
     # Copying the security key pem file to provision-stack directory
     # In provision-stack directory all the playbooks for services like Nginx, MySQL, RabbitMQ etc will be written
