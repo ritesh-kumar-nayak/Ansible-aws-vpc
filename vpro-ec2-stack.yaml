@@ -27,6 +27,15 @@
         mode: 0600
       when: vrprostack_key_out.changed
 
+    # Copying the security key pem file to provision-stack directory
+    # In provision-stack directory all the playbooks for services like Nginx, MySQL, RabbitMQ etc will be written
+
+    - name: Copy login key to provision-stack directory
+      copy:
+        src: loginkey_vprostack.pem
+        dest: provision-stack/loginkey_vprostack.pem
+        mode: '0400'
+
     # Creating Security group for LoadBalancer of VPro app Stack
     - name: Create security group for Load Balancer
       ec2_group:
@@ -225,14 +234,7 @@
           mc01_ip: {{mc01_out.tagged_instances[0].private_ip}}
           db01_ip: {{db01_out.tagged_instances[0].private_ip}}
 
-    # Copying the security key pem file to provision-stack directory
-    # In provision-stack directory all the playbooks for services like Nginx, MySQL, RabbitMQ etc will be written
-
-    - name: Copy login key to provision-stack directory
-      copy:
-        src: loginkey_vprostack.pem
-        dest: provision-stack/loginkey_vprostack.pem
-        mode: '0400'
+    
 
     # Creating Dynamic-Inventory files with the IPs
 
