@@ -1,0 +1,38 @@
+---
+- name: Install Memcache, Start and enable service
+  hosts: mcserver_group
+  gather_facts: no
+  tasks:
+    - name: install memcache
+      apt:
+        name: memcached
+        state: present
+        update_cache: yes
+        cache_valid_time: 86400
+      tags:
+        - package
+
+    - name: Start and enable service
+      service:
+        name: memcached
+        state: started
+        enabled: yes
+      tag:
+        - svc
+
+    - name: Enable remote login to memcached
+      lineinfile:                               # with this module we gonna search anything that starts -l and replace it with -l 0.0.0.0
+        path: /etc/memcached.conf
+        regexp: '^-l'
+        line: '-l 0.0.0.0'                      # now memcahed will listen on all the IPs not just local IP
+        backup: yes
+      notify:
+        - restarted memcached
+      tags:
+        - conf
+
+  handlers:
+    - name: Restart memcached
+      service:
+        name: memcached
+        state: restarted
