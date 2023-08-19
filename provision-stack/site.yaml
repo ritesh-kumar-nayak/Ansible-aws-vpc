@@ -1,4 +1,7 @@
 ---
+- name: Setup Instances Vpro stack
+  import_playbook: vpro-ec2-stack.yaml
+
 - name: Build Artifact ROOT.war & SQL file to be copied in files/ directory
   import_playbook: build.yaml
 
