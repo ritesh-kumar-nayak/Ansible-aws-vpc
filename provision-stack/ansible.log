@@ -29,3 +29,97 @@ assignment, got: ansible_host
 2023-08-19 04:52:43,662 p=910 u=ubuntu n=ansible | changed: [localhost]
 2023-08-19 04:52:43,678 p=910 u=ubuntu n=ansible | PLAY RECAP *******************************************************************************************************************************************************************************************************
 2023-08-19 04:52:43,679 p=910 u=ubuntu n=ansible | localhost                  : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2023-08-19 06:12:32,326 p=6057 u=ubuntu n=ansible | [WARNING]:  * Failed to parse /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro with yaml plugin: We were unable to read either as JSON nor YAML, these are the errors we got from each: JSON:
+Expecting value: line 1 column 1 (char 0)  Syntax Error while loading YAML.   mapping values are not allowed in this context  The error appears to be in '/home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-
+vpro': line 36, column 13, but may be elsewhere in the file depending on the exact syntax problem.  The offending line appears to be:  [stack_inst:vars] ansible_user: ubuntu             ^ here
+
+2023-08-19 06:12:32,326 p=6057 u=ubuntu n=ansible | [WARNING]:  * Failed to parse /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro with ini plugin: /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro:2: Expected key=value host variable
+assignment, got: ansible_host
+
+2023-08-19 06:12:32,327 p=6057 u=ubuntu n=ansible | [WARNING]: Unable to parse /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro as an inventory source
+
+2023-08-19 06:12:32,327 p=6057 u=ubuntu n=ansible | [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2023-08-19 06:12:32,335 p=6057 u=ubuntu n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2023-08-19 06:12:32,653 p=6057 u=ubuntu n=ansible | ERROR! Unable to retrieve file contents
+Could not find or access '/home/ubuntu/Ansible-aws-vpc/provision-stack/vpro-ec2-stack.yaml' on the Ansible Controller.
+If you are using a module and expect the file to exist on the remote, see the remote_src option
+2023-08-19 06:17:57,197 p=6458 u=ubuntu n=ansible | [WARNING]:  * Failed to parse /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro with yaml plugin: We were unable to read either as JSON nor YAML, these are the errors we got from each: JSON:
+Expecting value: line 1 column 1 (char 0)  Syntax Error while loading YAML.   mapping values are not allowed in this context  The error appears to be in '/home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-
+vpro': line 36, column 13, but may be elsewhere in the file depending on the exact syntax problem.  The offending line appears to be:  [stack_inst:vars] ansible_user: ubuntu             ^ here
+
+2023-08-19 06:17:57,197 p=6458 u=ubuntu n=ansible | [WARNING]:  * Failed to parse /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro with ini plugin: /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro:2: Expected key=value host variable
+assignment, got: ansible_host
+
+2023-08-19 06:17:57,197 p=6458 u=ubuntu n=ansible | [WARNING]: Unable to parse /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro as an inventory source
+
+2023-08-19 06:17:57,198 p=6458 u=ubuntu n=ansible | [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2023-08-19 06:17:57,201 p=6458 u=ubuntu n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2023-08-19 06:17:57,380 p=6458 u=ubuntu n=ansible | ERROR! conflicting action statements: service, tag
+
+The error appears to be in '/home/ubuntu/Ansible-aws-vpc/provision-stack/memcache.yaml': line 15, column 7, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+    - name: Start and enable service
+      ^ here
+
+2023-08-19 06:19:58,144 p=6473 u=ubuntu n=ansible | [WARNING]:  * Failed to parse /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro with yaml plugin: We were unable to read either as JSON nor YAML, these are the errors we got from each: JSON:
+Expecting value: line 1 column 1 (char 0)  Syntax Error while loading YAML.   mapping values are not allowed in this context  The error appears to be in '/home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-
+vpro': line 36, column 13, but may be elsewhere in the file depending on the exact syntax problem.  The offending line appears to be:  [stack_inst:vars] ansible_user: ubuntu             ^ here
+
+2023-08-19 06:19:58,144 p=6473 u=ubuntu n=ansible | [WARNING]:  * Failed to parse /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro with ini plugin: /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro:2: Expected key=value host variable
+assignment, got: ansible_host
+
+2023-08-19 06:19:58,144 p=6473 u=ubuntu n=ansible | [WARNING]: Unable to parse /home/ubuntu/Ansible-aws-vpc/provision-stack/inventory-vpro as an inventory source
+
+2023-08-19 06:19:58,145 p=6473 u=ubuntu n=ansible | [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2023-08-19 06:19:58,148 p=6473 u=ubuntu n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2023-08-19 06:19:58,383 p=6473 u=ubuntu n=ansible | PLAY [Generate artifact, copy artifacts and SQL file to files directory] *****************************************************************************************************************************************
+2023-08-19 06:19:58,394 p=6473 u=ubuntu n=ansible | TASK [Gathering Facts] *******************************************************************************************************************************************************************************************
+2023-08-19 06:19:59,716 p=6473 u=ubuntu n=ansible | ok: [localhost]
+2023-08-19 06:19:59,733 p=6473 u=ubuntu n=ansible | TASK [Install Jdk, maven and git in controller machine] **********************************************************************************************************************************************************
+2023-08-19 06:20:05,048 p=6473 u=ubuntu n=ansible | ok: [localhost] => (item=git)
+2023-08-19 06:20:08,267 p=6473 u=ubuntu n=ansible | ok: [localhost] => (item=openjdk-8-jdk)
+2023-08-19 06:20:10,931 p=6473 u=ubuntu n=ansible | ok: [localhost] => (item=maven)
+2023-08-19 06:20:10,942 p=6473 u=ubuntu n=ansible | TASK [Clone application Source code from repository] *************************************************************************************************************************************************************
+2023-08-19 06:20:11,859 p=6473 u=ubuntu n=ansible | ok: [localhost]
+2023-08-19 06:20:11,871 p=6473 u=ubuntu n=ansible | TASK [mvn install command to build artifact] *********************************************************************************************************************************************************************
+2023-08-19 06:20:11,906 p=6473 u=ubuntu n=ansible | skipping: [localhost]
+2023-08-19 06:20:11,917 p=6473 u=ubuntu n=ansible | TASK [Copy artifacts to files directory] *************************************************************************************************************************************************************************
+2023-08-19 06:20:12,906 p=6473 u=ubuntu n=ansible | ok: [localhost] => (item=/home/ubuntu/Ansible-aws-vpc/provision-stack/Vprofile-repo/target/vprofile-v2.war)
+2023-08-19 06:20:12,918 p=6473 u=ubuntu n=ansible | TASK [Copy SQL file to files directory] **************************************************************************************************************************************************************************
+2023-08-19 06:20:13,421 p=6473 u=ubuntu n=ansible | ok: [localhost]
+2023-08-19 06:20:13,443 p=6473 u=ubuntu n=ansible | PLAY [set host to IP mapping in /etc/hosts file of all the instances in the stack] *******************************************************************************************************************************
+2023-08-19 06:20:13,444 p=6473 u=ubuntu n=ansible | skipping: no hosts matched
+2023-08-19 06:20:13,445 p=6473 u=ubuntu n=ansible | [WARNING]: Could not match supplied host pattern, ignoring: dbserver_group
+
+2023-08-19 06:20:13,445 p=6473 u=ubuntu n=ansible | PLAY [Setup MySQL with accounts db and remote login] *************************************************************************************************************************************************************
+2023-08-19 06:20:13,445 p=6473 u=ubuntu n=ansible | skipping: no hosts matched
+2023-08-19 06:20:13,446 p=6473 u=ubuntu n=ansible | PLAY [Deploy sql file on accounts db] ****************************************************************************************************************************************************************************
+2023-08-19 06:20:13,446 p=6473 u=ubuntu n=ansible | skipping: no hosts matched
+2023-08-19 06:20:13,447 p=6473 u=ubuntu n=ansible | [WARNING]: Could not match supplied host pattern, ignoring: mcserver_group
+
+2023-08-19 06:20:13,447 p=6473 u=ubuntu n=ansible | PLAY [Install Memcache, Start and enable service] ****************************************************************************************************************************************************************
+2023-08-19 06:20:13,447 p=6473 u=ubuntu n=ansible | skipping: no hosts matched
+2023-08-19 06:20:13,448 p=6473 u=ubuntu n=ansible | [WARNING]: Could not match supplied host pattern, ignoring: rmqserver_group
+
+2023-08-19 06:20:13,448 p=6473 u=ubuntu n=ansible | PLAY [Install & Setup RabbitMQ with user] ************************************************************************************************************************************************************************
+2023-08-19 06:20:13,448 p=6473 u=ubuntu n=ansible | skipping: no hosts matched
+2023-08-19 06:20:13,449 p=6473 u=ubuntu n=ansible | [WARNING]: Could not match supplied host pattern, ignoring: appserver_group
+
+2023-08-19 06:20:13,450 p=6473 u=ubuntu n=ansible | PLAY [Setup Tomcat8 & Deploy Artifact] ***************************************************************************************************************************************************************************
+2023-08-19 06:20:13,450 p=6473 u=ubuntu n=ansible | skipping: no hosts matched
+2023-08-19 06:20:13,450 p=6473 u=ubuntu n=ansible | [WARNING]: Could not match supplied host pattern, ignoring: webserver_group
+
+2023-08-19 06:20:13,451 p=6473 u=ubuntu n=ansible | PLAY [Setup Nginx svc] *******************************************************************************************************************************************************************************************
+2023-08-19 06:20:13,451 p=6473 u=ubuntu n=ansible | skipping: no hosts matched
+2023-08-19 06:20:13,451 p=6473 u=ubuntu n=ansible | PLAY RECAP *******************************************************************************************************************************************************************************************************
+2023-08-19 06:20:13,451 p=6473 u=ubuntu n=ansible | localhost                  : ok=5    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
